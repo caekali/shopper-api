@@ -35,6 +35,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Catch-all for any other unhandled exceptions
         $exceptions->render(function (Throwable $e) {
-            return ApiResponse::error('Intera Server error', 500);
+            return ApiResponse::error('Internal Server error', 500);
         });
     })->create();
