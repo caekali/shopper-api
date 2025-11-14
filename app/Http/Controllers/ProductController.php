@@ -39,7 +39,7 @@ class ProductController extends BaseController
 
         Product::create($data);
 
-        return $this->successResponse(message: 'Product added successfully');
+        return $this->successResponse(message: 'Product added');
     }
 
     /**
@@ -54,7 +54,7 @@ class ProductController extends BaseController
             $product['image_url'] = $url;
         }
 
-        return $this->successResponse($product,'Product retrieved successfully');
+        return $this->successResponse($product);
     }
 
     /**
@@ -86,7 +86,7 @@ class ProductController extends BaseController
 
         $product->update($data);
 
-        return $this->successResponse(message: 'Product updated successfully');
+        return $this->successResponse(message: 'Product updated');
     }
 
     /**
@@ -104,7 +104,7 @@ class ProductController extends BaseController
             }
 
             return response()->json([
-                'message' => 'Product deleted successfully',
+                'message' => 'Product deleted',
             ]);
         }
 
