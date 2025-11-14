@@ -54,7 +54,7 @@ class ProductController extends BaseController
             $product['image_url'] = $url;
         }
 
-        return $this->successResponse($product);
+        return $this->successResponse($product,'Product retrieved successfully');
     }
 
     /**
