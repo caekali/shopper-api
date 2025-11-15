@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('cart_id')->constrained('carts')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products');
             $table->integer('quantity')->default(0);
-            $table->decimal('price',2);
-            $table->decimal('subtotal',2);
+            $table->decimal('price');
+            $table->decimal('subtotal');
             $table->timestamps();
         });
     }

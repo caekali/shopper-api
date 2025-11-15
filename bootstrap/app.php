@@ -2,6 +2,7 @@
 
 use App\Helpers\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -29,12 +30,12 @@ return Application::configure(basePath: dirname(__DIR__))
             return ApiResponse::error('Resource not found', 404);
         });
 
-        $exceptions->render(function (UnauthorizedException|AuthorizationException $e) {
+        $exceptions->render(function (AuthenticationException|AuthorizationException $e) {
             return ApiResponse::error('Unauthorized access', 403);
         });
 
         // Catch-all for any other unhandled exceptions
-        $exceptions->render(function (Throwable $e) {
-            return ApiResponse::error('Internal Server error', 500);
-        });
+        // $exceptions->render(function (Throwable $e) {
+        //     return ApiResponse::error('Internal Server error', 500);
+        // });
     })->create();
