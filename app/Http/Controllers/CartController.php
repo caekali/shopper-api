@@ -46,7 +46,6 @@ class CartController extends BaseController
         }
 
         $product = Product::findOrFail($data['product_id']);
-
         $cartItem = $cart->items()->where('product_id', $product->id)->first();
 
         if ($cartItem) {
@@ -75,11 +74,42 @@ class CartController extends BaseController
      */
     public function destroy(Request $request)
     {
-        //
+
+        $data = $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $user = Auth::user();
+
+        $cart = $user->cart()->first();
+        if (! $cart) {
+            return $this->errorResponse(message: 'Cart Not Found', code: 404);
+
+        }
+
+        $product = Product::findOrFail($data['product_id']);
+
+        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+        $cartItem->delete();
+
+        return $this->successResponse(message: 'Cart Item cleared');
+
     }
 
     public function clear(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $cart = $user->cart()->first();
+
+        if ($cart) {
+            $cart->delete();
+
+            return $this->successResponse(message: 'Cart cleared');
+        }
+
+        return $this->errorResponse(message: 'Cart Not Found', code: 404);
     }
+
+    
 }

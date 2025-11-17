@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,11 @@ Route::middleware('auth:sanctum')->prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index']);
     Route::post('/add', [CartController::class, 'store']);
     Route::delete('/remove', [CartController::class, 'destroy']);
-    Route::get('/clear', [CartController::class, 'clear']);
+    Route::delete('/clear', [CartController::class, 'clear']);
 });
+
+
+Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:sanctum');
+Route::get('/payment/callback', [OrderController::class, 'paymentCallback'])->name('payment.callback');
+Route::get('/payment/return-url', [OrderController::class, 'paymentReturnUrl'])->name('payment.return.url');
+
