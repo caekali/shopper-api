@@ -63,7 +63,7 @@ class OrderController extends BaseController
     private function initiatePayment($order)
     {
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer SEC-TEST-HctfPOD4otv5THxLZiVt5dQ1XvL6mTxn',
+            'Authorization' => 'Bearer '. env("PAYCHANGU_SECRET_KEY"),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ])->post('https://api.paychangu.com/payment', [
