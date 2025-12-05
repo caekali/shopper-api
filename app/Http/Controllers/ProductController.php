@@ -49,10 +49,10 @@ class ProductController extends BaseController
     {
         $product = Product::findOrfail($id);
 
-        if ($product['image_url']) {
-            $url = Storage::disk('public')->url($product->image_url);
-            $product['image_url'] = $url;
-        }
+        // if ($product['image_url']) {
+        //     $url = Storage::disk('public')->url($product->image_url);
+        //     $product['image_url'] = $$product->image_url;
+        // }
 
         return $this->successResponse($product);
     }
@@ -103,14 +103,11 @@ class ProductController extends BaseController
                 Storage::disk('public')->delete($product->image_url);
             }
 
-            return response()->json([
-                'message' => 'Product deleted',
-            ]);
+            return $this->successResponse(message: 'Product Deleted');
+
         }
 
-        return response()->json([
-            'message' => 'Product not found with id '.$id,
-        ]);
+        return $this->successResponse(message: 'Product not found with id '.$id);
 
     }
 }

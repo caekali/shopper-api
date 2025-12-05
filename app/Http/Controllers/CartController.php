@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CartResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +23,10 @@ class CartController extends BaseController
                 'total_amount' => 0,
             ]);
         }
+        
+        $cart = $cart->load('items.product');
 
-        return $this->successResponse($cart->load('items.product'));
+        return $this->successResponse(new CartResource($cart));
     }
 
     /**
@@ -64,9 +67,7 @@ class CartController extends BaseController
         $cart->total_amount = $cart->items()->sum('subtotal');
         $cart->save();
 
-        return $this->successResponse([
-            'cart' => $cart->load('items.product'),
-        ], 'Product added to cart successfully', 201);
+        return $this->successResponse(new CartResource($cart), 'Product added to cart successfully', 201);
     }
 
     /**
