@@ -23,16 +23,14 @@ Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
-
 Route::middleware('auth:sanctum')->prefix('cart')->group(function () {
     Route::get('', [CartController::class, 'index']);
     Route::post('/add', [CartController::class, 'store']);
+    Route::get('/status/{productId}', [CartController::class, 'getProductStatus']);
     Route::delete('/remove', [CartController::class, 'destroy']);
     Route::delete('/clear', [CartController::class, 'clear']);
 });
 
-
 Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:sanctum');
 Route::get('/payment/callback', [OrderController::class, 'paymentCallback'])->name('payment.callback');
 Route::get('/payment/return-url', [OrderController::class, 'paymentReturnUrl'])->name('payment.return.url');
-

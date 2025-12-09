@@ -30,6 +30,22 @@ class CartController extends BaseController
         return $this->successResponse(new CartResource($cart));
     }
 
+
+    public function getProductStatus(Request $request,$productId){
+
+         $user = Auth::user();
+
+        $cart = $user->cart()->first();
+
+        $product = Product::findOrFail($productId);
+        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+        return $this->successResponse([
+            'product_id' => $productId,
+            'is_in_cart' => (bool)$cartItem,
+            'quantity' => $cartItem ? $cartItem->quantity : 0
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -68,7 +84,7 @@ class CartController extends BaseController
         $cart->total_amount = $cart->items()->sum('subtotal');
         $cart->save();
 
-        return $this->successResponse(new CartResource($cart), 'Product added to cart successfully', 201);
+        return $this->successResponse(null, 'Product added to cart successfully', 201);
     }
 
     /**
@@ -78,7 +94,7 @@ class CartController extends BaseController
     {
 
         $data = $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'cart_item_id' => 'required|exists:cart_items,id',
         ]);
 
         $user = Auth::user();
@@ -89,9 +105,9 @@ class CartController extends BaseController
 
         }
 
-        $product = Product::findOrFail($data['product_id']);
+        // $product = Product::findOrFail($data['product_id']);
 
-        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+        $cartItem = $cart->items()->where($request->cart_item_id)->first();
         $cartItem->delete();
 
         return $this->successResponse(message: 'Cart Item cleared');
