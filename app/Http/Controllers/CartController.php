@@ -15,7 +15,6 @@ class CartController extends BaseController
     public function index(Request $request)
     {
 
- 
         $user = Auth::user();
 
         $cart = $user->cart()->first();
@@ -24,25 +23,26 @@ class CartController extends BaseController
                 'total_amount' => 0,
             ]);
         }
-        
+
         $cart = $cart->load('items.product');
 
         return $this->successResponse(new CartResource($cart));
     }
 
+    public function getProductStatus(Request $request, $productId)
+    {
 
-    public function getProductStatus(Request $request,$productId){
-
-         $user = Auth::user();
+        $user = Auth::user();
 
         $cart = $user->cart()->first();
 
         $product = Product::findOrFail($productId);
         $cartItem = $cart->items()->where('product_id', $product->id)->first();
+
         return $this->successResponse([
             'product_id' => $productId,
-            'is_in_cart' => (bool)$cartItem,
-            'quantity' => $cartItem ? $cartItem->quantity : 0
+            'is_in_cart' => (bool) $cartItem,
+            'quantity' => $cartItem ? $cartItem->quantity : 1,
         ]);
     }
 
@@ -90,12 +90,8 @@ class CartController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, $itemId)
     {
-
-        $data = $request->validate([
-            'cart_item_id' => 'required|exists:cart_items,id',
-        ]);
 
         $user = Auth::user();
 
@@ -105,12 +101,19 @@ class CartController extends BaseController
 
         }
 
-        // $product = Product::findOrFail($data['product_id']);
+        $cartItem = $cart->items()->where('id', $itemId)->first();
 
-        $cartItem = $cart->items()->where($request->cart_item_id)->first();
+        if (! $cartItem) {
+            return $this->errorResponse(message: 'Item Not Found', code: 404);
+        }
+
+        $newTotalAmount =  ((float)$cart->total_amount - ((float) $cartItem->price * (int) ($cartItem->quantity)));
+        $cart->total_amount = $newTotalAmount;
+        $cart->save();
+
         $cartItem->delete();
 
-        return $this->successResponse(message: 'Cart Item cleared');
+        return $this->successResponse(data: ['new_total_amount' => $newTotalAmount], message: 'Cart Item removed');
 
     }
 
@@ -128,6 +131,4 @@ class CartController extends BaseController
 
         return $this->errorResponse(message: 'Cart Not Found', code: 404);
     }
-
-    
 }
