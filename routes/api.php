@@ -4,12 +4,11 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/profile', [UserController::class,"getUser"])->middleware('auth:sanctum');
 
 Route::prefix('/auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
