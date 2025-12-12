@@ -1,59 +1,287 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EasyShop API – Laravel Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg?style=flat&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4.svg?style=flat&logo=php)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1.svg?style=flat&logo=mysql)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![API](https://img.shields.io/badge/API-RESTful-blue.svg)
 
-## About Laravel
+A robust, scalable **RESTful API** built with Laravel for the EasyShop Android e-commerce application.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Features JWT authentication, product management, order processing, and more.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Technology           | Version       | Purpose                          |
+|---------------------|---------------|----------------------------------|
+| Laravel             | 12.x          | Backend Framework                |
+| PHP                 | 8.2+          | Programming Language             |
+| MySQL               | 8.0+          | Database                         |
+| Laravel Sanctum     | (Alternative) | API Token Authentication         |
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 📋 Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Authentication & Authorization
+- ✅ JWT-based authentication
+- ✅ User registration & login
+- ✅ Password reset via email
+- ✅ Role-based access control (Admin/Customer)
+- ✅ Token refresh & invalidation
 
-## Laravel Sponsors
+### Product Management
+- ✅ CRUD operations for products
+- ✅ Product categories & tags
+- ✅ Image upload & management
+- ✅ Product search & filtering
+- ✅ Pagination support
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Order Management
+- ✅ Shopping cart operations
+- ✅ Order creation & tracking
+- ✅ Order status updates
+- ✅ Order history
+- ✅ Integrated with paychangu
 
-### Premium Partners
+### User Management
+- ✅ Profile management
+- ✅ Address management
+- ✅ Wishlist functionality
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🏗️ Project Structure
 
-## Contributing
+```
+easyshop-api/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Auth/
+│   │   │   ├── ProductController.php
+│   │   │   ├── OrderController.php
+│   │   │   └── CartController.php
+│   │   ├── Middleware/
+│   │   └── Requests/
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Product.php
+│   │   ├── Order.php
+│   │   └── Cart.php
+│   ├── Repositories/
+│   └── Services/
+├── config/
+├── database/
+│   ├── migrations/
+│   ├── seeders/
+│   └── factories/
+├── routes/
+│   ├── api.php
+│   └── web.php
+├── tests/
+└── .env.example
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📚 API Documentation
 
-## Code of Conduct
+### Base URL
+```
+https://api.easyshop.mw/api/v1
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Authentication Endpoints
 
-## Security Vulnerabilities
+| Method | Endpoint              | Description           |
+|--------|----------------------|----------------------|
+| POST   | /auth/register       | Register new user    |
+| POST   | /auth/login          | Login user           |
+| POST   | /auth/logout         | Logout user          |
+| POST   | /auth/refresh        | Refresh JWT token    |
+| GET    | /auth/me             | Get user profile     |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Product Endpoints
 
-## License
+| Method | Endpoint              | Description           | Auth Required |
+|--------|----------------------|----------------------|---------------|
+| GET    | /products            | List all products    | No            |
+| GET    | /products/{id}       | Get product details  | No            |
+| POST   | /products            | Create product       | Yes (Admin)   |
+| PUT    | /products/{id}       | Update product       | Yes (Admin)   |
+| DELETE | /products/{id}       | Delete product       | Yes (Admin)   |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Cart Endpoints
+
+| Method | Endpoint              | Description           | Auth Required |
+|--------|----------------------|----------------------|---------------|
+| GET    | /cart                | Get user cart        | Yes           |
+| POST   | /cart/add            | Add item to cart     | Yes           |
+| PUT    | /cart/update/{id}    | Update cart item     | Yes           |
+| DELETE | /cart/remove/{id}    | Remove from cart     | Yes           |
+
+### Order Endpoints
+
+| Method | Endpoint              | Description           | Auth Required |
+|--------|----------------------|----------------------|---------------|
+| GET    | /orders              | List user orders     | Yes           |
+| GET    | /orders/{id}         | Get order details    | Yes           |
+| POST   | /orders              | Create new order     | Yes           |
+| PUT    | /orders/{id}/status  | Update order status  | Yes (Admin)   |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- PHP 8.2 or higher
+- Composer
+- MySQL 8.0 or higher
+- Node.js & NPM (for frontend assets if needed)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/caekali/easyshop-api.git
+cd easyshop-api
+```
+
+2. **Install dependencies**
+```bash
+composer install
+```
+
+3. **Environment setup**
+```bash
+cp .env.example .env
+php artisan key:generate
+php artisan jwt:secret
+```
+
+4. **Configure database**
+Update your `.env` file:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=easyshop-api
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+5. **Run migrations & seeders**
+```bash
+php artisan migrate --seed
+```
+
+6. **Start development server**
+```bash
+php artisan serve
+```
+
+API will be available at: `http://localhost:8000`
+
+### Testing
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test suite
+php artisan test --testsuite=Feature
+
+# Run with coverage
+php artisan test --coverage
+```
+
+## 🔧 Configuration
+
+### CORS Configuration
+Edit `config/cors.php` to allow your Android app:
+```php
+'allowed_origins' => ['*'], // Or specific origins
+'allowed_methods' => ['*'],
+'allowed_headers' => ['*'],
+```
+
+## 📦 Deployment
+
+### Production Checklist
+- [ ] Set `APP_ENV=production` in `.env`
+- [ ] Set `APP_DEBUG=false`
+- [ ] Configure proper database credentials
+- [ ] Set up SSL certificate (HTTPS)
+- [ ] Configure queue worker for background jobs
+- [ ] Set up Redis for caching
+- [ ] Configure email service (Mailgun, SES, etc.)
+- [ ] Run `php artisan optimize`
+- [ ] Set up scheduled tasks in cron
+
+### Example Deployment (Ubuntu/Nginx)
+```bash
+# Optimize application
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Set permissions
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
+```
+
+## 🧪 Testing with Postman
+
+Import the API collection:
+1. Download [EasyShop.postman_collection.json](docs/postman/collection.json)
+2. Import into Postman
+3. Set environment variables:
+   - `base_url`: Your API URL
+
+## 📊 Database Schema
+
+```sql
+users
+- id, name, email, password, role, created_at, updated_at
+
+products
+- id, name, description, price, stock, category_id, image, created_at, updated_at
+
+categories
+- id, name, slug, created_at, updated_at
+
+orders
+- id, user_id, total, status, created_at, updated_at
+
+order_items
+- id, order_id, product_id, quantity, price, created_at, updated_at
+
+carts
+- id, user_id, product_id, quantity, created_at, updated_at
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🔒 Security
+
+If you discover any security issues, please email ckalikunde@gmail.com instead of using the issue tracker.
+
+## 📄 License
+
+```
+MIT License - free for commercial and personal use
+```
+
+## 🚀 Roadmap
+- [ ] Email notifications
+- [ ] SMS notifications
+- [ ] Advanced product filtering
+- [ ] Product reviews & ratings
+- [ ] Admin dashboard
+- [ ] Analytics & reporting
+- [ ] Multi-language support
+
+
+**Related Projects:**
+- [EasyShop Android App](https://github.com/caekali/Easy-Shop) - The mobile client for this API
