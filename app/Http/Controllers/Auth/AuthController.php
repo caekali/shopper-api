@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends BaseController
 {
+    public function verifyEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (! $user) {
+            return $this->errorResponse('Account Not Found', null, 404);
+        }
+
+        return $this->successResponse(code: 200);
+
+    }
+
     public function register(Request $request)
     {
 
@@ -31,16 +46,16 @@ class AuthController extends BaseController
         ], 201);
     }
 
-    public function login(Request $request)
+    public function signin(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'remember_me' => 'sometimes|boolean',
         ]);
 
         if (Auth::attempt($request->only(['email', 'password']), $request->remember_me)) {
             $user = Auth::user();
+
             return $this->successResponse([
                 'user' => $user,
                 'token' => $user->createToken('auth_token')->plainTextToken,
@@ -48,7 +63,7 @@ class AuthController extends BaseController
 
         }
 
-         return $this->errorResponse('Bad credentials',null, 401);
+        return $this->errorResponse('Bad credentials', null, 401);
     }
 
     public function logout(Request $request)
