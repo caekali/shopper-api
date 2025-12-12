@@ -53,7 +53,7 @@ class AuthController extends BaseController
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only(['email', 'password']), $request->remember_me)) {
+        if (Auth::attempt($request->only(['email', 'password']))) {
             $user = Auth::user();
 
             return $this->successResponse([
