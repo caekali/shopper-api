@@ -25,13 +25,6 @@ class ProductController extends BaseController
         return $this->successResponse(ProductResource::collection($products));
     }
 
-    public function getProductsByCategory($id)
-    {
-        Category::findOrfail($id);
-        $products = Product::where('category_id', $id)->get();
-
-        return $this->successResponse(ProductResource::collection($products));
-    }
 
     /**
      * Store a newly created resource in storage.
