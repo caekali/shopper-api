@@ -1,4 +1,4 @@
-# EasyShop API – Laravel Backend
+# Shopper API – Laravel Backend
 
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg?style=flat&logo=laravel)
 ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4.svg?style=flat&logo=php)
@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![API](https://img.shields.io/badge/API-RESTful-blue.svg)
 
-A robust, scalable **RESTful API** built with Laravel for the EasyShop Android e-commerce application.
+A robust, scalable **RESTful API** built with Laravel for the Shopper Android e-commerce application.
 
 Features JWT authentication, product management, order processing, and more.
 
@@ -51,7 +51,7 @@ Features JWT authentication, product management, order processing, and more.
 ## 🏗️ Project Structure
 
 ```
-easyshop-api/
+shopper-api/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
@@ -137,8 +137,8 @@ https://api.easyshop.mw/api/v1
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/caekali/easyshop-api.git
-cd easyshop-api
+git clone https://github.com/caekali/shopper-api.git
+cd shopper-api
 ```
 
 2. **Install dependencies**
@@ -159,7 +159,7 @@ Update your `.env` file:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=easyshop-api
+DB_DATABASE=shopper-api
 DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
@@ -284,4 +284,4 @@ MIT License - free for commercial and personal use
 
 
 **Related Projects:**
-- [EasyShop Android App](https://github.com/caekali/Easy-Shop) - The mobile client for this API
+- [Shopper Android App](https://github.com/caekali/Shopper) - The mobile client for this API
