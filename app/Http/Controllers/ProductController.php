@@ -10,34 +10,33 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request, $categoryId = null)
+    public function index(Request $request, ?int $categoryId = null)
     {
         if ($categoryId) {
             Category::findOrFail($categoryId);
         }
 
-        $products = Product::query()
-            ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId)
-            )
-            ->when($request->filled('category_id'), fn ($q) => $q->where('category_id', $request->category_id)
-            )
-            ->when($request->filled('min_price'), fn ($q) => $q->where('price', '>=', $request->min_price)
-            )
-            ->when($request->filled('max_price'), fn ($q) => $q->where('price', '<=', $request->max_price)
-            )
-            ->when($request->filled('search'), fn ($q) => $q->where('name', 'like', '%'.$request->search.'%')
-            )
-            ->when($request->filled('sort'), fn ($q) => match ($request->sort) {
-                'price_asc' => $q->orderBy('price', 'asc'),
-                'price_desc' => $q->orderBy('price', 'desc'),
-                'latest' => $q->orderBy('created_at', 'desc'),
-                default => $q
-            }
-            )
-            ->get();
+        $products = Product::search($request->get('q', ''))
+            ->query(function ($query) use ($request, $categoryId) {
+                $query->when($categoryId ?: $request->category_id, function ($q, $id) {
+                    $q->where('category_id', $id);
+                })
+                    ->when($request->filled('min_price'), fn ($q) => $q->where('price', '>=', $request->min_price))
+                    ->when($request->filled('max_price'), fn ($q) => $q->where('price', '<=', $request->max_price));
+            })
+            
+            // 3. Apply Sorting
+        
+            ->when($request->filled('sort'), function ($scoutQuery) use ($request) {
+                return match ($request->sort) {
+                    'price_asc' => $scoutQuery->orderBy('price', 'asc'),
+                    'price_desc' => $scoutQuery->orderBy('price', 'desc'),
+                    'latest' => $scoutQuery->orderBy('created_at', 'desc'),
+                    default => $scoutQuery
+                };
+            })
+            ->paginate($request->get('per_page', 15))
+            ->withQueryString();
 
         return $this->successResponse(
             ProductResource::collection($products)

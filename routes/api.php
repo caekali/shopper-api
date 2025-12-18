@@ -37,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'delete']);
 });
 
+// /products?q=laptop&category_id=5&min_price=500&max_price=1500&sort=price_asc&page=2
+
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/categories/{id}/products', [ProductController::class, 'index']);

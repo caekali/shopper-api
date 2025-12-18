@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'name',
         'slug',
@@ -34,6 +37,17 @@ class Product extends Model
             )
             ->when($request->filled('search'), fn ($q) => $q->where('name', 'like', '%'.$request->search.'%')
             );
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'category_id' => (int) $this->category_id,
+            'price' => (float) $this->price,
+            'created_at' => $this->created_at->timestamp,
+        ];
     }
 
     public function cartItem(): HasMany
